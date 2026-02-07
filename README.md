@@ -27,7 +27,7 @@ You should see that :
 
 ## Features  
 
-<img src="/images/readme/setupexample.png" alt="image1" width="450" />  
+<img src="/images/readme/setupsexample.png" alt="image1" width="450" />  
 
 - "Load" button opens the setup.  
 - "Save" button overwrites the setup save with the current tabs and windows disposition. (When pressed it will show a confirmation popup. You can check "Don't show this again." to remove the confirmation popup for the future.)
