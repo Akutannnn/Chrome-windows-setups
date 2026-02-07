@@ -2,7 +2,7 @@ let MessageTimeout = null
 
 async function saveCurrentSetup(setupName) {
     const windows = await chrome.windows.getAll({ populate: true });
-    
+    console.log("All windows:", windows);
     const setupData = windows.map(window => ({
         left: window.left,
         top: window.top,
@@ -13,9 +13,21 @@ async function saveCurrentSetup(setupName) {
             url: tab.url,
             pinned: tab.pinned,
             active: tab.active,
-            index: tab.index
+            index: tab.index,
+            groupId: tab.groupId
         }))
     }));
+    for (let i = 0; i < windows.length; i++) {
+        const windowId = windows[i].id;
+        const groups = await chrome.tabGroups.query({ windowId: windowId });
+        
+        setupData[i].groups = groups.map(group => ({
+            id: group.id,
+            title: group.title,
+            color: group.color,
+            collapsed: group.collapsed
+        }));
+    }
 
     const { setups = {} } = await chrome.storage.local.get('setups');
     
@@ -52,41 +64,48 @@ savebutton.addEventListener("click", async () => {
     const Nameerror = document.getElementById("Nameerror");
     const saveMessage = document.getElementById("saveMessage");
     Nameerror.style.display = "none";
-    Nameerror.textContent = "";
+    Nameerror.innerHTML = "";
     if (!setupName) {
         setupName = await generateSetupName()
         input.value = "";
     }
     if (setupName.length>26) {
+        if (MessageTimeout) {
+        clearTimeout(MessageTimeout);
+        }
         Nameerror.style.display = "block"
-        Nameerror.textContent = "Please enter a name with 26 characters or less."
+        Nameerror.innerText = "Please enter a name with 26 characters or less."
+        saveMessage.style.display = "none";
+        saveMessage.innerHTML = "";
     } 
     else {
         const Existingnames = (await getSortedSetups()).map(entry => entry[0])
         if (Existingnames.includes(setupName)) {
             Nameerror.style.display = "block";
-            Nameerror.textContent = "A setup with this name already exists. (Press Save next a setup to overwrite it.)";
+            Nameerror.innerHTML = "A setup with this name already exists.<br>(Press Save next a setup to overwrite it.)";
+            saveMessage.style.display = "none";
+            saveMessage.innerHTML = "";
             if (MessageTimeout) {
                 clearTimeout(MessageTimeout);
             };
             MessageTimeout = setTimeout(() => {
                 Nameerror.style.display = "none";
-                Nameerror.textContent = "";
-            }, 2000);
+                Nameerror.innerHTML = "";
+            }, 3800);
         }
         else {
             Nameerror.style.display = "none";
-            Nameerror.textContent = "";
+            Nameerror.innerHTML = "";
             await saveCurrentSetup(setupName)
             saveMessage.style.display = "block";
-            saveMessage.textContent = `${setupName} saved successfully!`;
+            saveMessage.innerText = `${setupName} saved successfully!`;
             input.value = "";
             if (MessageTimeout) {
                 clearTimeout(MessageTimeout);
             };
             MessageTimeout = setTimeout(() => {
                 saveMessage.style.display = "none";
-                saveMessage.textContent = "";
+                saveMessage.innerHTML = "";
             }, 2000);
         }
     }
@@ -102,32 +121,45 @@ async function getSortedSetups() {
 async function Insertsetupslist() {
     const Wheretoinsert = document.getElementById('Setupstable');
     const NameOrders = (await getSortedSetups()).map(entry => entry[0]);
-    let toinsert = "";
+    
+    Wheretoinsert.innerHTML = "";
+    
     NameOrders.forEach(name => {
-        toinsert += `<tr>
-        <td class="setupnames">${name}</td>
-        <td><button id="${name}load">Load</button></td>
-        <td><button id="${name}overwrite">Save</button></td>
-        <td><button id="${name}delete">Delete</button></td>
-        </tr>`
-        });
-        
-    Wheretoinsert.innerHTML = toinsert
+        const row = document.createElement('tr');
 
-    NameOrders.forEach(name => {
-        document.getElementById(`${name}load`).addEventListener('click', () => {
+        const nameCell = document.createElement('td');
+        nameCell.className = 'setupnames';
+        nameCell.textContent = name;
+        
+        const loadCell = document.createElement('td');
+        const loadBtn = document.createElement('button');
+        loadBtn.textContent = 'Load';
+        loadBtn.addEventListener('click', () => {
             loadSetup(name);
         });
+        loadCell.appendChild(loadBtn);
         
-        document.getElementById(`${name}overwrite`).addEventListener('click', () => {
+        const saveCell = document.createElement('td');
+        const saveBtn = document.createElement('button');
+        saveBtn.textContent = 'Save';
+        saveBtn.addEventListener('click', () => {
             overwriteSetup(name);
         });
+        saveCell.appendChild(saveBtn);
         
-        document.getElementById(`${name}delete`).addEventListener('click', () => {
+        const deleteCell = document.createElement('td');
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.addEventListener('click', () => {
             deleteSetup(name);
         });
+        deleteCell.appendChild(deleteBtn);
+        
+        row.append(nameCell, loadCell, saveCell, deleteCell);
+        Wheretoinsert.appendChild(row);
     });
-};
+}
+
 Insertsetupslist()
 
 async function loadSetup(name) {
@@ -157,14 +189,40 @@ async function loadSetup(name) {
             });
         }
         const [defaultTab] = await chrome.tabs.query({ windowId: newWindow.id });
+
+        const createdTabs = [];
         for (const tabData of windowData.tabs) {
-            await chrome.tabs.create({
+            const newTab = await chrome.tabs.create({
                 windowId: newWindow.id,
                 url: tabData.url,
                 pinned: tabData.pinned,
                 active: tabData.active,
                 index: tabData.index
             });
+            createdTabs.push({
+                tab: newTab,
+                originalGroupId: tabData.groupId || -1
+            })
+        }
+        if (windowData.groups && windowData.groups.length > 0) {
+            for (const groupData of windowData.groups) {
+                const tabsInGroup = createdTabs
+                    .filter(ct => ct.originalGroupId === groupData.id)
+                    .map(ct => ct.tab.id);
+                
+                if (tabsInGroup.length > 0) {
+                    const newGroupId = await chrome.tabs.group({
+                        tabIds: tabsInGroup,
+                        createProperties: { windowId: newWindow.id }
+                    });
+                    
+                    await chrome.tabGroups.update(newGroupId, {
+                        title: groupData.title,
+                        color: groupData.color,
+                        collapsed: groupData.collapsed
+                    });
+                }
+            }
         }
         if (defaultTab) {
             await chrome.tabs.remove(defaultTab.id);
@@ -193,23 +251,39 @@ async function overwriteSetup(name) {
             url: tab.url,
             pinned: tab.pinned,
             active: tab.active,
-            index: tab.index
+            index: tab.index,
+            groupId: tab.groupId 
         }))
     }))
+    for (let i = 0; i < windows.length; i++) {
+        const windowId = windows[i].id;
+        const groups = await chrome.tabGroups.query({ windowId: windowId });
+        
+        setupData[i].groups = groups.map(group => ({
+            id: group.id,
+            title: group.title,
+            color: group.color,
+            collapsed: group.collapsed
+        }));
+    }
     setups[name] = {
         windowsData: setupData,
         timestamp: Date.now()
     };
     await chrome.storage.local.set({setups});
     const saveMessage = document.getElementById("saveMessage")
+    const Nameerror = document.getElementById("Nameerror")
+    Nameerror.style.display = "none";
+    Nameerror.innerText = "";
     saveMessage.style.display = "block";
-    saveMessage.textContent = `${name} saved successfully!`;
+    saveMessage.innerText = `${name} saved successfully!`;
+
     if (MessageTimeout) {
         clearTimeout(MessageTimeout);
     }
     MessageTimeout = setTimeout(() => {
         saveMessage.style.display = "none";
-        saveMessage.textContent = "";
+        saveMessage.innerHTML= "";
     }, 2000);
 }
 

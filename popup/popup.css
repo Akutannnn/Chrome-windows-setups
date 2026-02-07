@@ -17,15 +17,32 @@ body {
 
 table {
     width: 360px;
-    margin: 14px 0px;
+    margin: 24px 0px 14px;
 }
 
 td {
     padding: 4px 2px;
 }
 
+#Nameerror {
+    color: red;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+}
+
+#saveMessage{
+    color: green;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 .setupnames {
     width: 200px;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 #confirmModal {

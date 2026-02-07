@@ -49,3 +49,9 @@ You should see that :
 -Choose the extracted folder and voilà  
 
 (Currently waiting approval to get listed on Chrome Web Extension Store)
+
+## Known issues
+
+Minimized windows are not saved.  
+The extension can't get position or size information for minimized windows which are necessary when loading a window.  
+Only non-minimized windows (normal, maximized, or fullscreen) will be included in saved setups.
