@@ -29,6 +29,7 @@ table {
     left: 50%;
     transform: translateX(-50%);
     width: 70%;
+    font-weight: bold;
 }
 
 #saveMessage{
@@ -36,6 +37,7 @@ table {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    font-weight: bold;
 }
 
 #confirmModal {
