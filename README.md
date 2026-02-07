@@ -48,4 +48,4 @@ You should see that :
 -Click "Load unpacked" on the top left  
 -Choose the extracted folder and voilà  
 
-(Currently waiting approval to get listed on Chrome Web Store)
+(Currently waiting approval to get listed on Chrome Web Extension Store)
