@@ -16,6 +16,9 @@ body {
 table {
     width: 420px;
     margin: 4px auto 10px;
+    table-layout: fixed;
+    border-spacing: 0 6px;
+    border-collapse: separate;
 }
 
 
@@ -33,12 +36,6 @@ table {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-}
-
-.setupnames {
-    width: 200px;
-    font-weight: bold;
-    font-size: 16px;
 }
 
 #confirmModal {
@@ -236,6 +233,21 @@ table {
 }
 
 #Setupstable td {
-    padding-top: 4px;
-    padding-bottom: 4px;
+    padding: 4px 2px;
+}
+
+
+#Setupstable .setupnames {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: left;
+}
+
+#Setupstable td:not(.setupnames) {
+    width: 15%;
+    text-align: center;
 }

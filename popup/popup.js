@@ -69,12 +69,12 @@ savebutton.addEventListener("click", async () => {
         setupName = await generateSetupName()
         input.value = "";
     }
-    if (setupName.length>26) {
+    if (setupName.length>60) {
         if (MessageTimeout) {
         clearTimeout(MessageTimeout);
         }
         Nameerror.style.display = "block"
-        Nameerror.innerText = "Please enter a name with 26 characters or less."
+        Nameerror.innerText = "Please enter a name with 60 characters or less."
         saveMessage.style.display = "none";
         saveMessage.innerHTML = "";
     } 
@@ -130,6 +130,7 @@ async function Insertsetupslist() {
         const nameCell = document.createElement('td');
         nameCell.className = 'setupnames';
         nameCell.textContent = name;
+        nameCell.title = name;
         
         const loadCell = document.createElement('td');
         const loadBtn = document.createElement('button');
