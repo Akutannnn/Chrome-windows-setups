@@ -14,20 +14,8 @@ async function saveCurrentSetup(setupName) {
             pinned: tab.pinned,
             active: tab.active,
             index: tab.index,
-            groupId: tab.groupId
         }))
     }));
-    for (let i = 0; i < windows.length; i++) {
-        const windowId = windows[i].id;
-        const groups = await chrome.tabGroups.query({ windowId: windowId });
-        
-        setupData[i].groups = groups.map(group => ({
-            id: group.id,
-            title: group.title,
-            color: group.color,
-            collapsed: group.collapsed
-        }));
-    }
 
     const { setups = {} } = await chrome.storage.local.get('setups');
     
@@ -195,7 +183,6 @@ async function loadSetup(name) {
         }
         const [defaultTab] = await chrome.tabs.query({ windowId: newWindow.id });
 
-        const createdTabs = [];
         for (const tabData of windowData.tabs) {
             const newTab = await chrome.tabs.create({
                 windowId: newWindow.id,
@@ -204,30 +191,6 @@ async function loadSetup(name) {
                 active: tabData.active,
                 index: tabData.index
             });
-            createdTabs.push({
-                tab: newTab,
-                originalGroupId: tabData.groupId || -1
-            })
-        }
-        if (windowData.groups && windowData.groups.length > 0) {
-            for (const groupData of windowData.groups) {
-                const tabsInGroup = createdTabs
-                    .filter(ct => ct.originalGroupId === groupData.id)
-                    .map(ct => ct.tab.id);
-                
-                if (tabsInGroup.length > 0) {
-                    const newGroupId = await chrome.tabs.group({
-                        tabIds: tabsInGroup,
-                        createProperties: { windowId: newWindow.id }
-                    });
-                    
-                    await chrome.tabGroups.update(newGroupId, {
-                        title: groupData.title,
-                        color: groupData.color,
-                        collapsed: groupData.collapsed
-                    });
-                }
-            }
         }
         if (defaultTab) {
             await chrome.tabs.remove(defaultTab.id);
@@ -257,20 +220,8 @@ async function overwriteSetup(name) {
             pinned: tab.pinned,
             active: tab.active,
             index: tab.index,
-            groupId: tab.groupId 
         }))
     }))
-    for (let i = 0; i < windows.length; i++) {
-        const windowId = windows[i].id;
-        const groups = await chrome.tabGroups.query({ windowId: windowId });
-        
-        setupData[i].groups = groups.map(group => ({
-            id: group.id,
-            title: group.title,
-            color: group.color,
-            collapsed: group.collapsed
-        }));
-    }
     setups[name] = {
         windowsData: setupData,
         timestamp: Date.now()
