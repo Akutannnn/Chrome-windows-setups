@@ -39,3 +39,13 @@ You should see that :
 - Pinned tabs
 
 - Save Current Setup defaults to "Setup 1", "Setup 2"... if no name is entered.  
+
+## Installation 
+
+-Download the zip  
+-Extract it  
+-Go to "Manage extensions" **OR** Open "chrome://extensions/" (copy paste it in your browser's search bar)  
+-Click "Load unpacked" on the top left  
+-Choose the extracted folder and voilà  
+
+(Currently waiting approval to get listed on Chrome Web Store)
