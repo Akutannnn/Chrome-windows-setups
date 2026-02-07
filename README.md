@@ -32,13 +32,13 @@ You should see that :
 - "Load" button opens the setup.  
 - "Save" button overwrites the setup save with the current tabs and windows disposition. (When pressed it will show a confirmation popup. You can check "Don't show this again." to remove the confirmation popup for the future.)
 - "Delete" button deletes the setup.
+- Works with multiple screens (double screen, triple screen etc.)
+- Save Current Setup defaults to "Setup 1", "Setup 2"... if no name is entered.  
 
 **What gets saved**
 - All open windows and their positions.
 - All tabs in each windows with their URLs and order
 - Pinned tabs
-
-- Save Current Setup defaults to "Setup 1", "Setup 2"... if no name is entered.  
 
 ## Installation 
 
