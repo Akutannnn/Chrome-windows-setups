@@ -13,21 +13,21 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-Detects groups in setups, can now save and load them.
+Detects groups in setups, can now save and load them.  
 
 ### Fixed
 
-Fixed a case where ephemeral messages would stack up.
-Made their position absolute to not move the whole page.
-Improved code quality and security.
-Enhanced user input handling
+Fixed a case where ephemeral messages would stack up.  
+Made their position absolute to not move the whole page.  
+Improved code quality and security.  
+Enhanced user input handling.  
 
 ## [1.0.0] 07/02/2026
 
 ### Added
  
--Save new setups with custom names (defaults to "Setup X" if unnamed)
--List all existing setups
--Load saved setups
--Overwrite existing setup saves
--Delete setups
+-Save new setups with custom names (defaults to "Setup X" if unnamed)  
+-List all existing setups  
+-Load saved setups  
+-Overwrite existing setup saves  
+-Delete setups  
