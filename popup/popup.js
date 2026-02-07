@@ -2,7 +2,7 @@ let MessageTimeout = null
 
 async function saveCurrentSetup(setupName) {
     const windows = await chrome.windows.getAll({ populate: true });
-    console.log("All windows:", windows);
+    const validWindows = windows.filter(window => window.state !== "minimized");
     const setupData = windows.map(window => ({
         left: window.left,
         top: window.top,

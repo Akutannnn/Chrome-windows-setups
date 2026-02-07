@@ -9,9 +9,15 @@ All notable changes to this project will be documented in this file.
 -Darkmode/Lightmode switch  
 -Feedbacks  
 
+## [1.0.4] 07/02/2026
+
+### Fixed
+
+Fixed a case where the extension wouldn't properly load tabs if the saved setup contained a minimized window.
+
 ## [1.0.3] 07/02/2026
 
-### Improvedd
+### Improved
 
 UI and UX  
 Long setup names handling  
