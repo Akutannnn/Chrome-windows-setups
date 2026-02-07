@@ -133,6 +133,7 @@ async function Insertsetupslist() {
         
         const loadCell = document.createElement('td');
         const loadBtn = document.createElement('button');
+        loadBtn.className = 'load-btn';
         loadBtn.textContent = 'Load';
         loadBtn.addEventListener('click', () => {
             loadSetup(name);
@@ -141,6 +142,7 @@ async function Insertsetupslist() {
         
         const saveCell = document.createElement('td');
         const saveBtn = document.createElement('button');
+        saveBtn.className = 'save-btn';
         saveBtn.textContent = 'Save';
         saveBtn.addEventListener('click', () => {
             overwriteSetup(name);
@@ -149,6 +151,7 @@ async function Insertsetupslist() {
         
         const deleteCell = document.createElement('td');
         const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-btn';
         deleteBtn.textContent = 'Delete';
         deleteBtn.addEventListener('click', () => {
             deleteSetup(name);
@@ -159,6 +162,7 @@ async function Insertsetupslist() {
         Wheretoinsert.appendChild(row);
     });
 }
+
 
 Insertsetupslist()
 

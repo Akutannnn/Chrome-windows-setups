@@ -9,6 +9,13 @@ All notable changes to this project will be documented in this file.
 -Darkmode/Lightmode switch  
 -Feedbacks  
 
+## [1.0.2] 07/02/2026
+
+### Improved
+
+UI design  
+Overall UX  
+
 ## [1.0.1] 07/02/2026
 
 ### Added

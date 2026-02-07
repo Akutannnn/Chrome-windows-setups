@@ -1,15 +1,15 @@
 body {
     width: 420px;
-    height: auto;
     text-align: center;
     padding-top: 0px;
-    background-color: aliceblue;
+    margin-bottom: 10px;
+    background-color: rgb(208, 226, 243);
 }
 
 #Setupslist {
     padding-right: 22px; 
     margin: 10px;
-    max-height: 300px;
+    max-height: 356px;
     overflow-y: auto;
     overflow-x: auto;
     border:1 1px solid #ccc;
@@ -17,7 +17,7 @@ body {
 
 table {
     width: 360px;
-    margin: 24px 0px 14px;
+    margin: 4px 0px 10px;
 }
 
 td {
@@ -109,4 +109,128 @@ td {
     color: white;
     border: none;
     border-radius: 4px;
+}
+
+.load-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4px 6px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: #4A90E2;
+    box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1), inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.5), 0px 0px 0px 0.5px rgba(0, 0, 0, 0.12);
+    color: #FFFFFF;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.load-btn:focus {
+    box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px rgba(74, 144, 226, 0.5);
+    outline: 0;
+}
+
+.load-btn:hover {
+    background: #357ABD;
+    text-decoration: none;
+    transition-duration: 0.1s;
+}
+
+.save-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4px 6px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: #5CB85C;
+    box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1), inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.5), 0px 0px 0px 0.5px rgba(0, 0, 0, 0.12);
+    color: #FFFFFF;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.save-btn:focus {
+    box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px rgba(92, 184, 92, 0.5);
+    outline: 0;
+}
+
+.save-btn:hover {
+    background: #4CAE4C;
+    text-decoration: none;
+    transition-duration: 0.1s;
+}
+
+.delete-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4px 6px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: #D9534F;
+    box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1), inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.5), 0px 0px 0px 0.5px rgba(0, 0, 0, 0.12);
+    color: #FFFFFF;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.delete-btn:focus {
+    box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px rgba(217, 83, 79, 0.5);
+    outline: 0;
+}
+
+.delete-btn:hover {
+    background: #C9302C;
+    text-decoration: none;
+    transition-duration: 0.1s;
+}
+
+
+#saveSetup {
+    appearance: none;
+    background-color: #2563EB;
+    border: 1px solid rgba(27, 31, 35, 0.15);
+    border-radius: 6px;
+    box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 20px;
+    padding: 1.6px 8px;
+    vertical-align: middle;
+}
+
+#saveSetup:hover {
+    background-color: #1D4ED8;
+}
+
+#saveSetup:active {
+    background-color: #1E40AF;
+}
+
+#setupName {
+    margin: 3px;
+    padding: 6px 12px;
+    border: 1px solid rgba(27, 31, 35, 0.15);
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 20px;
+    vertical-align: middle;
+    box-sizing: border-box;
+}
+
+#createsetup {
+    margin : 18px 0px 40px;
 }
