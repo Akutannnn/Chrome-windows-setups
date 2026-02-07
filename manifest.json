@@ -7,7 +7,6 @@
         "storage",
         "tabs",
         "unlimitedStorage",
-        "tabGroups"
     ],
     "host_permissions": [
         "<all_urls>"
