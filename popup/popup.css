@@ -1,5 +1,5 @@
 body {
-    width: 420px;
+    width: 480px;
     text-align: center;
     padding-top: 0px;
     margin-bottom: 10px;
@@ -7,22 +7,18 @@ body {
 }
 
 #Setupslist {
-    padding-right: 22px; 
     margin: 10px;
     max-height: 356px;
     overflow-y: auto;
     overflow-x: auto;
-    border:1 1px solid #ccc;
 }
-
+    
 table {
-    width: 360px;
-    margin: 4px 0px 10px;
+    width: 420px;
+    margin: 4px auto 10px;
 }
 
-td {
-    padding: 4px 2px;
-}
+
 
 #Nameerror {
     color: red;
@@ -233,4 +229,13 @@ td {
 
 #createsetup {
     margin : 18px 0px 40px;
+}
+
+#Setupstable button {
+    min-width: 60px;
+}
+
+#Setupstable td {
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
