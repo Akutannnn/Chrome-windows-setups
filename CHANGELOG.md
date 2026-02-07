@@ -1,13 +1,13 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project will be documented in this file.  
 
 ## [Unreleased]
 
--Autosave(?) setups and automatically load chosen setup on startup
--Timestamps for each setup (last saved)
--Darkmode/Lightmode switch
--Feedbacks
+-Autosave(?) setups and automatically load chosen setup on startup  
+-Timestamps for each setup (last saved)  
+-Darkmode/Lightmode switch  
+-Feedbacks  
 
 ## [1.0.1] 07/02/2026
 
