@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="popup.css">
+    </head>
+
+    <body>
+
+        <img src="/images/icons/icon.png" alt="Chrome Windows Setups" width="64" height="64"/>
+        <h1>Chrome Windows Setups</h1>
+
+        <input type="text" id="setupName" placeholder="Enter setup name" />
+        <button id="saveSetup">Save Current Setup</button>
+        <div id="Nameerror" style="color: red; display: none;"></div>
+        <div id="saveMessage" style="color: green; display: none;"></div>
+        
+        <div id="confirmModal" style="display: none;">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <h3>Confirm Overwrite</h3>
+                <p>This will overwrite the existing setup data. Are you sure?</p>
+                
+                <label>
+                    <input type="checkbox" id="dontShowAgain">
+                    Don't show this again
+                </label>
+                
+                <div class="modal-buttons">
+                    <button id="confirmBtn">Confirm</button>
+                    <button id="cancelBtn">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="Setupslist">
+            <table id="Setupstable">
+
+
+            </table>
+        </div>
+
+
+        <script src="popup.js"></script>
+
+    </body>
+
+
+
+
+
+
+</html>
