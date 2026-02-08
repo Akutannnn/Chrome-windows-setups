@@ -14,7 +14,7 @@
     "action": {
         "default_popup": "popup/popup.html",
         "default_icon": "images/icons/icon.png",
-        "default_title": "Chrome Window Setups"
+        "default_title": "Chrome Windows Setups"
     },
     "icons": {
         "16": "images/icons/icon16.png",
