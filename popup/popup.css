@@ -1,9 +1,56 @@
+:root {
+    color-scheme: light dark;
+    --bg-color: rgb(208, 226, 243);
+    --text-color: rgb(33, 33, 33);
+    
+    --save-setup-bg: #2563EB;
+    --save-setup-hover: #1D4ED8;
+    --save-setup-active: #1E40AF;
+    
+    --load-btn-bg: #4A90E2;
+    --load-btn-hover: #357ABD;
+    --load-btn-focus: rgba(74, 144, 226, 0.5);
+    
+    --save-btn-bg: #5CB85C;
+    --save-btn-hover: #4CAE4C;
+    --save-btn-focus: rgba(92, 184, 92, 0.5);
+    
+    --delete-btn-bg: #D9534F;
+    --delete-btn-hover: #C9302C;
+    --delete-btn-focus: rgba(217, 83, 79, 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: rgb(45, 45, 45);
+        --text-color: rgb(255, 255, 255);
+        
+        --save-setup-bg: #4e91fd;
+        --save-setup-hover: #2563EB;
+        --save-setup-active: #1D4ED8;
+
+        --load-btn-bg: #3B82F6;
+        --load-btn-hover: #2563EB;
+        --load-btn-focus: rgba(59, 130, 246, 0.4);
+
+        --save-btn-bg: #16A34A;
+        --save-btn-hover: #15803D;
+        --save-btn-focus: rgba(22, 163, 74, 0.4);
+
+        --delete-btn-bg: #DC2626;
+        --delete-btn-hover: #B91C1C;
+        --delete-btn-focus: rgba(220, 38, 38, 0.4);
+    }
+}
+
 body {
     width: 480px;
     text-align: center;
     padding-top: 0px;
     margin-bottom: 10px;
-    background-color: rgb(208, 226, 243);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
 }
 
 #Setupslist {
@@ -21,8 +68,6 @@ table {
     border-collapse: separate;
 }
 
-
-
 #Nameerror {
     color: red;
     position: absolute;
@@ -38,6 +83,18 @@ table {
     left: 50%;
     transform: translateX(-50%);
     font-weight: bold;
+}
+
+@media (prefers-color-scheme: dark) {
+    #Nameerror {
+        font-weight: normal;
+        color: rgb(223, 69, 69);
+    }
+    
+    #saveMessage {
+        font-weight: normal;
+        color: rgb(19, 191, 19);
+    }
 }
 
 #confirmModal {
@@ -63,7 +120,7 @@ table {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: white;
+    background: var(--bg-color);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
@@ -115,23 +172,23 @@ table {
     border-radius: 6px;
     border: none;
     cursor: pointer;
-    background: #4A90E2;
+    background: var(--load-btn-bg);
     box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1), inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.5), 0px 0px 0px 0.5px rgba(0, 0, 0, 0.12);
     color: #FFFFFF;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
+    transition: background-color 0.2s;
 }
 
 .load-btn:focus {
-    box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px rgba(74, 144, 226, 0.5);
+    box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px var(--load-btn-focus);
     outline: 0;
 }
 
 .load-btn:hover {
-    background: #357ABD;
+    background: var(--load-btn-hover);
     text-decoration: none;
-    transition-duration: 0.1s;
 }
 
 .save-btn {
@@ -143,23 +200,23 @@ table {
     border-radius: 6px;
     border: none;
     cursor: pointer;
-    background: #5CB85C;
+    background: var(--save-btn-bg);
     box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1), inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.5), 0px 0px 0px 0.5px rgba(0, 0, 0, 0.12);
     color: #FFFFFF;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
+    transition: background-color 0.2s;
 }
 
 .save-btn:focus {
-    box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px rgba(92, 184, 92, 0.5);
+    box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px var(--save-btn-focus);
     outline: 0;
 }
 
 .save-btn:hover {
-    background: #4CAE4C;
+    background: var(--save-btn-hover);
     text-decoration: none;
-    transition-duration: 0.1s;
 }
 
 .delete-btn {
@@ -171,29 +228,28 @@ table {
     border-radius: 6px;
     border: none;
     cursor: pointer;
-    background: #D9534F;
+    background: var(--delete-btn-bg);
     box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1), inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.5), 0px 0px 0px 0.5px rgba(0, 0, 0, 0.12);
     color: #FFFFFF;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
+    transition: background-color 0.2s;
 }
 
 .delete-btn:focus {
-    box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px rgba(217, 83, 79, 0.5);
+    box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px var(--delete-btn-focus);
     outline: 0;
 }
 
 .delete-btn:hover {
-    background: #C9302C;
+    background: var(--delete-btn-hover);
     text-decoration: none;
-    transition-duration: 0.1s;
 }
-
 
 #saveSetup {
     appearance: none;
-    background-color: #2563EB;
+    background-color: var(--save-setup-bg);
     border: 1px solid rgba(27, 31, 35, 0.15);
     border-radius: 6px;
     box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
@@ -203,16 +259,17 @@ table {
     font-size: 12px;
     font-weight: 500;
     line-height: 20px;
-    padding: 1.6px 8px;
+    padding: 1px 8px;
     vertical-align: middle;
+    transition: background-color 0.2s;
 }
 
 #saveSetup:hover {
-    background-color: #1D4ED8;
+    background-color: var(--save-setup-hover);
 }
 
 #saveSetup:active {
-    background-color: #1E40AF;
+    background-color: var(--save-setup-active);
 }
 
 #setupName {
@@ -226,8 +283,24 @@ table {
     box-sizing: border-box;
 }
 
+#setupName:focus {
+    outline: 2px solid #2f3b54;
+    outline-offset: 0px;
+}
+
+@media (prefers-color-scheme: dark) {
+    #setupName {
+        background-color: #374151;
+        color: #ffffff;
+        border: 1px solid #6B7280;
+    }
+    #setupName:focus {
+        outline: 2px solid #7792cc;
+    }
+}
+
 #createsetup {
-    margin : 18px 0px 40px;
+    margin: 18px 0px 40px;
 }
 
 #Setupstable button {
@@ -237,7 +310,6 @@ table {
 #Setupstable td {
     padding: 4px 2px;
 }
-
 
 #Setupstable .setupnames {
     max-width: 200px;

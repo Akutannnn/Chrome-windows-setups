@@ -5,10 +5,15 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 -Autosave(?) setups and automatically load chosen setup on startup  
--Timestamps for each setup (last saved)  
--Darkmode/Lightmode switch  
+-Timestamps for each setup (last saved)    
 -Custom emojis to each setups
 -Feedbacks  
+
+## [1.0.5] 08/02/2026
+
+### Added
+
+Added automatic light/dark mode depending on system preference.
 
 ## [1.0.4] 07/02/2026
 

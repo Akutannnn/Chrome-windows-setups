@@ -8,7 +8,11 @@
 
     <body>
 
-        <img src="/images/icons/icon.png" alt="Chrome Windows Setups" width="64" height="64"/>
+        <picture>
+            <source srcset="/images/other/darkcws.png" media="(prefers-color-scheme: dark)">
+            <source srcset="/images/icons/icon.png" media="(prefers-color-scheme: light)">
+            <img src="/images/icons/icon.png" alt="Chrome Windows Setups" width="64" height="64">
+        </picture>
         <h1>Chrome Windows Setups</h1>
 
         <div id = "createsetup">
