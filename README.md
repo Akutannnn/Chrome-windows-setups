@@ -4,7 +4,7 @@
 
 Chrome Windows Setups is a browser extension that saves and restores your entire Chrome workspace with one click.  
 
-It is basically a tool 
+It is basically a tool to save and load Chrome windows and tabs disposition.
 
 **Perfect for:**  
 - Developers who switch between different projects with specific tabs and windows layouts  
