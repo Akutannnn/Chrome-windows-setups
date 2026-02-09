@@ -1,7 +1,7 @@
 {
     "name": "Chrome Windows Setups",
     "description": "Save and restore your Chrome Windows layouts/setups with ease.",
-    "version": "1.0.0",
+    "version": "1.0.5",
     "manifest_version": 3,
     "permissions": [
         "storage",
