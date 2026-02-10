@@ -3,6 +3,14 @@
     "description": "Save and restore your Chrome Windows layouts/setups with ease.",
     "version": "1.0.5",
     "manifest_version": 3,
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    }, 
+    "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
     "permissions": [
         "storage",
         "tabs",

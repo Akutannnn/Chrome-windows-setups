@@ -208,6 +208,8 @@ async function overwriteSetup(name) {
         if (!confirmed) return;
     }
     
+    const existingAutoload = setups[name].autoload;
+
     const windows = await chrome.windows.getAll({ populate: true });
     const setupData = windows.map(window => ({
         left: window.left,
@@ -224,7 +226,8 @@ async function overwriteSetup(name) {
     }))
     setups[name] = {
         windowsData: setupData,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        autoload: existingAutoload
     };
     await chrome.storage.local.set({setups});
     const saveMessage = document.getElementById("saveMessage")

@@ -4,10 +4,18 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
--Autosave(?) setups and automatically load chosen setup on startup  
--Timestamps for each setup (last saved)    
--Custom emojis to each setups
+-Autosave(?) setups  
+-Custom emojis to each setups  
+-Rename setup names when clicking on the name  
 -Feedbacks  
+
+## [1.1.0] 10/02/2026
+
+### Added
+
+Added options page for the extension that includes :  
+- Last saved timestamp for each setup  
+- Autoload on chrome startup option for each setup  
 
 ## [1.0.5] 08/02/2026
 
