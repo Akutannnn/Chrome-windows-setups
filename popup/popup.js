@@ -115,12 +115,28 @@ async function Insertsetupslist() {
     NameOrders.forEach(name => {
         const row = document.createElement('tr');
 
+        const editCell = document.createElement('td');
+        editCell.className = 'edit-cell'
+        const editBtn = document.createElement('button');
+        editBtn.className = 'edit-btn';
+        editBtn.textContent = '✏️';
+        editBtn.title = 'Edit name';
+        editBtn.addEventListener('click', () => {
+            editSetupName(name, nameCell);
+        });
+        editCell.appendChild(editBtn);
+
         const nameCell = document.createElement('td');
         nameCell.className = 'setupnames';
         nameCell.textContent = name;
         nameCell.title = name;
+        nameCell.addEventListener('click', () => {
+            editSetupName(name, nameCell);
+        });
+        editCell.appendChild(editBtn);
         
         const loadCell = document.createElement('td');
+        loadCell.className = 'load-cell'
         const loadBtn = document.createElement('button');
         loadBtn.className = 'load-btn';
         loadBtn.textContent = 'Load';
@@ -130,6 +146,7 @@ async function Insertsetupslist() {
         loadCell.appendChild(loadBtn);
         
         const saveCell = document.createElement('td');
+        saveCell.className = 'save-cell'
         const saveBtn = document.createElement('button');
         saveBtn.className = 'save-btn';
         saveBtn.textContent = 'Save';
@@ -139,6 +156,7 @@ async function Insertsetupslist() {
         saveCell.appendChild(saveBtn);
         
         const deleteCell = document.createElement('td');
+        deleteCell.className = 'delete-cell'
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-btn';
         deleteBtn.textContent = 'Delete';
@@ -147,13 +165,119 @@ async function Insertsetupslist() {
         });
         deleteCell.appendChild(deleteBtn);
         
-        row.append(nameCell, loadCell, saveCell, deleteCell);
+        row.append(editCell, nameCell, loadCell, saveCell, deleteCell);
         Wheretoinsert.appendChild(row);
     });
 }
 
-
 Insertsetupslist()
+
+let editRunning = false
+
+async function editSetupName(oldName, nameCell) {
+    if (editRunning) return;
+    editRunning = true;
+    const originalHTML = nameCell.innerHTML
+
+    const Nameerror = document.getElementById('Nameerror');
+    const saveMessage = document.getElementById('saveMessage');
+
+    const editWrapper = document.createElement('div');
+    editWrapper.className = 'edit-wrapper';
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = oldName;
+    input.className = 'edit-input'
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'cancel-edit-btn';
+    cancelBtn.textContent = '✕';
+    cancelBtn.title = 'Cancel';
+
+    nameCell.innerHTML = ''
+    editWrapper.appendChild(input);
+    editWrapper.appendChild(cancelBtn);
+    nameCell.appendChild(editWrapper);
+    input.focus();
+    input.select();
+
+    let isValidating = false;
+
+    const saveName = async () => {
+        if (isValidating) return;
+        isValidating = true;
+
+        const newName = input.value.trim();
+
+        if (!newName || newName === oldName) {
+            nameCell.innerHTML = originalHTML;
+            editRunning = false
+            return;
+        }
+
+        if (newName.length > 60) {
+            Nameerror.style.display = "block"
+            Nameerror.innerText = "The new name must be 60 characters or less."
+            saveMessage.style.display = "none";
+            saveMessage.innerHTML = "";
+            nameCell.innerHTML = originalHTML;
+            if (MessageTimeout) {
+                clearTimeout(MessageTimeout);
+            }
+            MessageTimeout = setTimeout(() => {
+                Nameerror.style.display = "none";
+                Nameerror.innerHTML= "";
+            }, 2000);
+            editRunning = false;
+            return;
+        }
+
+        const { setups = {} } = await chrome.storage.local.get('setups');
+    
+        if (setups[newName]) {
+            Nameerror.style.display = "block"
+            Nameerror.innerText = "A setup with this name already exists."
+            saveMessage.style.display = "none";
+            saveMessage.innerHTML = "";
+            nameCell.innerHTML = originalHTML;
+            if (MessageTimeout) {
+                clearTimeout(MessageTimeout);
+            }
+            MessageTimeout = setTimeout(() => {
+                Nameerror.style.display = "none";
+                Nameerror.innerHTML= "";
+            }, 2000);
+            editRunning = false;
+            return;
+        }
+
+        setups[newName] = setups[oldName];
+        delete setups[oldName];
+        editRunning = false;
+        await chrome.storage.local.set({ setups });
+    }
+
+    cancelBtn.addEventListener('mousedown', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        input.removeEventListener('blur', saveName);
+        nameCell.innerHTML = originalHTML;
+        editRunning = false;
+    });
+
+    input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            input.blur();
+        } else if (event.key === 'Escape') {
+            input.removeEventListener('blur', saveName);
+            nameCell.innerHTML = originalHTML;
+            editRunning = false;
+        }
+    });
+
+    input.addEventListener('blur', saveName);
+}
 
 async function loadSetup(name) {
     const { setups = {} } = await chrome.storage.local.get('setups')
@@ -289,5 +413,5 @@ function showConfirmModal() {
 
 
 chrome.storage.onChanged.addListener((changes, area) => {
-    Insertsetupslist()
+    if (!editRunning) Insertsetupslist()
 });

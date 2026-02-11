@@ -1,3 +1,5 @@
+let MessageTimeout = null
+
 async function getSortedSetups() {
     const { setups = {} } = await chrome.storage.local.get('setups');
     const sorted = Object.entries(setups)
@@ -15,37 +17,57 @@ async function Insertsetupslist() {
     Wheretoinsert.innerHTML = "";
     
     const headerRow = document.createElement('tr');
+
+    const editHeader = document.createElement('th');
+    editHeader.id = 'edit-header';
+    editHeader.textContent = '';
+    
     const nameHeader = document.createElement('th');
+    nameHeader.id = 'name-header';
     nameHeader.textContent = 'Setups';
-    nameHeader.style.textAlign = 'left';
     
     const autoHeader = document.createElement('th');
+    autoHeader.id = 'auto-header';
     autoHeader.textContent = 'Autoload on startup';
-    autoHeader.style.textAlign = 'right';
     
+    headerRow.appendChild(editHeader);
     headerRow.appendChild(nameHeader);
     headerRow.appendChild(autoHeader);
     Wheretoinsert.appendChild(headerRow);
     
     SetupData.forEach(time => {
         let dateObj = new Date(time.timestamp)
-        dateObj = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString();
+        dateObj = dateObj.toLocaleDateString() + ' - ' + dateObj.toLocaleTimeString();
         date.push(dateObj.toString())
     })
 
     NameOrders.forEach((name, index) => {
         const row = document.createElement('tr');
 
+        const editCell = document.createElement('td');
+        editCell.className = 'edit-cell'
+        const editBtn = document.createElement('button');
+        editBtn.className = 'edit-btn';
+        editBtn.textContent = '✏️';
+        editBtn.title = 'Edit name';
+        editBtn.addEventListener('click', () => {
+            editSetupName(name, nameCell);
+        });
+        editCell.appendChild(editBtn);
+
         const nameCell = document.createElement('td');
         nameCell.className = 'setupnames';
         nameCell.textContent = name;
         nameCell.innerHTML += `<br><a class="timestamp">Last saved ${date[index]}</a>`
         nameCell.title = name;
+        nameCell.addEventListener('click', () => {
+            editSetupName(name, nameCell);
+        });
+        row.append(editCell);
         row.append(nameCell);
 
         const autoCell = document.createElement('td');
-        autoCell.style.textAlign = 'right';
-        autoCell.style.verticalAlign = 'middle';
+        autoCell.className = 'auto-cell'
         
         const autoLabel = document.createElement('label');
         const autoInput = document.createElement('input');
@@ -77,9 +99,114 @@ async function Insertsetupslist() {
     });
 };
 
-
-
 Insertsetupslist()
+
+let editRunning = false
+
+async function editSetupName(oldName, nameCell) {
+    if (editRunning) return;
+    editRunning = true;
+    const originalHTML = nameCell.innerHTML
+
+    const Nameerror = document.getElementById('Nameerror');
+    const saveMessage = document.getElementById('saveMessage');
+
+    const editWrapper = document.createElement('div');
+    editWrapper.className = 'edit-wrapper';
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = oldName;
+    input.className = 'edit-input'
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'cancel-edit-btn';
+    cancelBtn.textContent = '✕';
+    cancelBtn.title = 'Cancel';
+
+    nameCell.innerHTML = ''
+    editWrapper.appendChild(input);
+    editWrapper.appendChild(cancelBtn);
+    nameCell.appendChild(editWrapper);
+    input.focus();
+    input.select();
+
+    let isValidating = false;
+
+    const saveName = async () => {
+        if (isValidating) return;
+        isValidating = true;
+
+        const newName = input.value.trim();
+
+        if (!newName || newName === oldName) {
+            nameCell.innerHTML = originalHTML;
+            editRunning = false
+            return;
+        }
+
+        if (newName.length > 60) {
+            Nameerror.style.display = "block"
+            Nameerror.innerText = "The new name must be 60 characters or less."
+            saveMessage.style.display = "none";
+            saveMessage.innerHTML = "";
+            nameCell.innerHTML = originalHTML;
+            if (MessageTimeout) {
+                clearTimeout(MessageTimeout);
+            }
+            MessageTimeout = setTimeout(() => {
+                Nameerror.style.display = "none";
+                Nameerror.innerHTML= "";
+            }, 2000);
+            editRunning = false;
+            return;
+        }
+
+        const { setups = {} } = await chrome.storage.local.get('setups');
+    
+        if (setups[newName]) {
+            Nameerror.style.display = "block"
+            Nameerror.innerText = "A setup with this name already exists."
+            saveMessage.style.display = "none";
+            saveMessage.innerHTML = "";
+            nameCell.innerHTML = originalHTML;
+            if (MessageTimeout) {
+                clearTimeout(MessageTimeout);
+            }
+            MessageTimeout = setTimeout(() => {
+                Nameerror.style.display = "none";
+                Nameerror.innerHTML= "";
+            }, 2000);
+            editRunning = false;
+            return;
+        }
+
+        setups[newName] = setups[oldName];
+        delete setups[oldName];
+        editRunning = false;
+        await chrome.storage.local.set({ setups });
+    }
+
+    cancelBtn.addEventListener('mousedown', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        input.removeEventListener('blur', saveName);
+        nameCell.innerHTML = originalHTML;
+        editRunning = false;
+    });
+
+    input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            input.blur();
+        } else if (event.key === 'Escape') {
+            input.removeEventListener('blur', saveName);
+            nameCell.innerHTML = originalHTML;
+            editRunning = false;
+        }
+    });
+
+    input.addEventListener('blur', saveName);
+}
 
 chrome.storage.onChanged.addListener((changes, area) => {
     Insertsetupslist()

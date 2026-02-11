@@ -30,7 +30,7 @@ body {
     overflow-x: auto;
 }
     
-table {
+#Setupstable {
     width: 420px;
     margin: 40px auto 10px;
     table-layout: fixed;
@@ -38,13 +38,26 @@ table {
     border-collapse: separate;
 }
 
-#Setupstable td {
+#edit-header {
+    width: 34px;
+}
+
+#name-header {
+    width: 260px;
+    text-align: left;
+}
+
+#auto-header {
+    width: 15%;
+    text-align: right;
+}
+
+#Setupstable td:not(.edit-cell) {
     padding: 4px 2px;
     border-bottom: solid 1px var(--alt-color);
 }
 
 #Setupstable .setupnames {
-    width: 260px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -53,9 +66,76 @@ table {
     text-align: left;
 }
 
-#Setupstable td:not(.setupnames) {
-    width: 15%;
-    text-align: center;
+.edit-wrapper {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.edit-btn {
+    padding: 2px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s, background-color 0.2s;
+}
+
+#Setupstable tr:hover .edit-btn {
+    opacity: 1;
+}
+
+.edit-btn:hover {
+    background: var(--alt-color);
+}
+
+.edit-input {
+    width: 260px;
+}
+
+.cancel-edit-btn {
+    padding: 2px 6px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #EF4444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, transform 0.1s;
+    line-height: 1;
+}
+
+.cancel-edit-btn:hover {
+    background: #DC2626;
+    transform: scale(1.1);
+}
+
+@media (prefers-color-scheme: dark) {
+    .cancel-edit-btn {
+        background: #DC2626;
+    }
+    
+    .cancel-edit-btn:hover {
+        background: #B91C1C;
+    }
+}
+
+#Setupstable .auto-cell {
+    text-align: right;
+    vertical-align: middle;
 }
 
 .timestamp {
@@ -128,4 +208,33 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+#Nameerror {
+    color: red;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    font-weight: bold;
+}
+
+#saveMessage{
+    color: green;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+}
+
+@media (prefers-color-scheme: dark) {
+    #Nameerror {
+        font-weight: normal;
+        color: rgb(223, 69, 69);
+    }
+    
+    #saveMessage {
+        font-weight: normal;
+        color: rgb(19, 191, 19);
+    }
 }

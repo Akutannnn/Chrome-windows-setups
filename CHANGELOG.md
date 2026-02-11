@@ -9,6 +9,12 @@ All notable changes to this project will be documented in this file.
 -Rename setup names when clicking on the name  
 -Feedbacks  
 
+## [1.1.1] 11/02/2026
+
+### Added
+
+Added functionality to edit setup name.  
+
 ## [1.1.0] 10/02/2026
 
 ### Added
