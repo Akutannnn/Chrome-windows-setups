@@ -6,7 +6,6 @@ All notable changes to this project will be documented in this file.
 
 -Autosave(?) setups  
 -Custom emojis to each setups  
--Rename setup names when clicking on the name  
 -Feedbacks  
 
 ## [1.1.1] 11/02/2026
