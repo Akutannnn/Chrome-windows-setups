@@ -31,7 +31,7 @@ body {
 }
     
 #Setupstable {
-    width: 420px;
+    width: 520px;
     margin: 40px auto 10px;
     table-layout: fixed;
     border-spacing: 0 6px;
@@ -43,7 +43,7 @@ body {
 }
 
 #name-header {
-    width: 260px;
+    width: 360px;
     text-align: left;
 }
 
@@ -97,7 +97,7 @@ body {
 }
 
 .edit-input {
-    width: 260px;
+    width: 280px;
 }
 
 .cancel-edit-btn {
