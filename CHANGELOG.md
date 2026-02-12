@@ -6,7 +6,12 @@ All notable changes to this project will be documented in this file.
 
 -Autosave(?) setups  
 -Custom emojis to each setups  
--Feedbacks  
+
+## [1.1.2] 12/02/2026
+
+### Added
+
+Added possibility to leave feedbacks at the bottom of options page.  
 
 ## [1.1.1] 11/02/2026
 
