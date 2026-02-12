@@ -292,8 +292,15 @@ async function loadSetup(name) {
         let newWindow;
         if (Wstate === "maximized" || Wstate === "fullscreen") {
             newWindow = await chrome.windows.create({
-                state: Wstate,
+                left: windowData.left,
+                top: windowData.top,
+                width: 1,
+                height: 1,
+                state: "normal",
                 focused: true
+            });
+            await chrome.windows.update(newWindow.id, {
+                state: Wstate
             })
         } else { 
             newWindow = await chrome.windows.create({

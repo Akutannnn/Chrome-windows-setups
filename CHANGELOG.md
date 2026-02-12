@@ -5,7 +5,13 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 -Autosave(?) setups  
--Custom emojis to each setups  
+-Custom emojis to each setups
+
+## [1.1.3] 13/02/2026
+
+### Fixed
+
+Fixed a bug where maximized window on second screen would load on primary screen.
 
 ## [1.1.2] 12/02/2026
 
