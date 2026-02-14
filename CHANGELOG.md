@@ -5,7 +5,23 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 -Autosave(?) setups  
--Custom emojis to each setups
+-Favorite/pin setups  
+-Export/Import setups  
+-Setup descriptions  
+-Close all windows before loading  
+-Window count preview (Show "X windows, Y tabs" next to each setup name)  
+
+## [1.1.4] 14/02/2026
+
+### Added
+
+Added confirmation modal when deleting a setup.  
+Added Close Open Windows modal when pressing load.  
+Added option to automatically close all open windows when loading a setup.
+
+### Fixed
+
+Fixed edit name feature in options.
 
 ## [1.1.3] 13/02/2026
 

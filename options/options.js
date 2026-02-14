@@ -1,5 +1,17 @@
 let MessageTimeout = null
 
+const CloseOnLoad = document.getElementById("closewindowsonload");
+
+CloseOnLoad.addEventListener('change', () => {
+    chrome.storage.local.set({ closeAllOnLoad: CloseOnLoad.checked })
+});
+
+const restoreOptions = chrome.storage.local.get({ closeAllOnLoad: false,
+}).then((items) => {
+    CloseOnLoad.checked = items.closeAllOnLoad
+})
+
+
 async function getSortedSetups() {
     const { setups = {} } = await chrome.storage.local.get('setups');
     const sorted = Object.entries(setups)
@@ -136,6 +148,9 @@ async function editSetupName(oldName, nameCell) {
     const saveName = async () => {
         if (isValidating) return;
         isValidating = true;
+
+        const Nameerror = document.getElementById('Nameerror');
+        const saveMessage = document.getElementById('saveMessage');
 
         const newName = input.value.trim();
 

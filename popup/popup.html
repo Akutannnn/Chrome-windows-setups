@@ -22,24 +22,62 @@
         <div id="saveMessage" style="display: none"></div>
         </div>
 
-        <div id="confirmModal" style="display: none;">
+        <div id="confirmLoadModal" style="display: none;">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <h3>Close all windows before loading setup</h3>
+                <p>You can toggle this setting in the extension's options page.</p>
+                
+                <label>
+                    <input type="checkbox" id="dontShowAgainload">
+                    Don't show this again
+                </label>
+                
+                <div class="modal-buttons">
+                    <button id="cancelLoadBtn" class="cancel">Cancel</button>
+                    <div class="button-group">
+                        <button id="NoLoadBtn">No</button>
+                        <button id="YesLoadBtn">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="confirmsaveModal" style="display: none;">
             <div class="modal-overlay"></div>
             <div class="modal-content">
                 <h3>Confirm Overwrite</h3>
                 <p>This will overwrite the existing setup data. Are you sure?</p>
                 
                 <label>
-                    <input type="checkbox" id="dontShowAgain">
+                    <input type="checkbox" id="dontShowAgainsave">
                     Don't show this again
                 </label>
                 
                 <div class="modal-buttons">
-                    <button id="confirmBtn">Confirm</button>
-                    <button id="cancelBtn">Cancel</button>
+                    <button id="confirmsaveBtn" class="confirmBtn">Confirm</button>
+                    <button id="cancelsaveBtn" class="cancelBtn">Cancel</button>
                 </div>
             </div>
         </div>
 
+        <div id="confirmdeleteModal" style="display: none;">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <h3>Confirm Delete</h3>
+                <p>This will delete the selected setup. Are you sure?</p>
+                
+                <label>
+                    <input type="checkbox" id="dontShowAgaindelete">
+                    Don't show this again
+                </label>
+                
+                <div class="modal-buttons">
+                    <button id="confirmdeleteBtn" class="confirmBtn">Confirm</button>
+                    <button id="canceldeleteBtn" class="cancelBtn">Cancel</button>
+                </div>
+            </div>
+        </div>
 
         <div id="Setupslist">
             <table id="Setupstable">

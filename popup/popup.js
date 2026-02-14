@@ -280,12 +280,29 @@ async function editSetupName(oldName, nameCell) {
 }
 
 async function loadSetup(name) {
+    const { skipLoadConfirm = false } = await chrome.storage.local.get('skipLoadConfirm');
+    let { closeAllOnLoad } = await chrome.storage.local.get('closeAllOnLoad');
+    if ((!skipLoadConfirm) && closeAllOnLoad === undefined) {
+        const { confirmed, closeAll } = await showLoadModal();
+        if (!confirmed) return;
+        closeAllOnLoad = closeAll;
+        console.log("Hey", skipLoadConfirm)
+        }
+
+
     const { setups = {} } = await chrome.storage.local.get('setups')
     const setup = setups[name]
     if (!setup || !setup.windowsData) {
         console.error("Save not found", name)
         return;
     }
+
+    let oldWindows;
+    if (closeAllOnLoad) {
+        const AllWindows = await chrome.windows.getAll()
+        oldWindows = AllWindows.map(w => w.id);
+    }
+
     const windowsData = setup.windowsData
     for (const windowData of windowsData) {
         const Wstate = windowData.state || "normal";
@@ -327,6 +344,11 @@ async function loadSetup(name) {
             await chrome.tabs.remove(defaultTab.id);
         }
     }
+    if (closeAllOnLoad && oldWindows.length > 0) {
+        for (const oldWindow of oldWindows) {
+            await chrome.windows.remove(oldWindow);
+        }
+    }
 }
 
 async function overwriteSetup(name) {
@@ -335,7 +357,7 @@ async function overwriteSetup(name) {
 
     const { skipOverwriteConfirm = false } = await chrome.storage.local.get('skipOverwriteConfirm');
     if (!skipOverwriteConfirm) {
-        const confirmed = await showConfirmModal();
+        const confirmed = await showConfirmSaveModal();
         if (!confirmed) return;
     }
     
@@ -379,19 +401,67 @@ async function overwriteSetup(name) {
 
 async function deleteSetup(name) {
     const { setups = {} } = await chrome.storage.local.get('setups');
+    if (!setups[name]) return;
+
+    const { skipDeleteConfirm = false } = await chrome.storage.local.get('skipDeleteConfirm');
+    if (!skipDeleteConfirm) {
+        const confirmed = await showConfirmDeleteModal();
+        if (!confirmed) return;
+    }
     if (setups[name]) {
         delete setups[name];
         await chrome.storage.local.set({ setups });
     }
 }
 
-
-function showConfirmModal() {
+function showLoadModal() {
     return new Promise((resolve) => {
-        const modal = document.getElementById('confirmModal');
-        const confirmBtn = document.getElementById('confirmBtn');
-        const cancelBtn = document.getElementById('cancelBtn');
-        const dontShowAgain = document.getElementById('dontShowAgain');
+        const modal = document.getElementById('confirmLoadModal');
+        const YesBtn = document.getElementById('YesLoadBtn');
+        const NoBtn = document.getElementById('NoLoadBtn');
+        const cancelBtn = document.getElementById('cancelLoadBtn');
+        const dontShowAgain = document.getElementById('dontShowAgainload');
+
+        modal.style.display = 'block';
+
+        YesBtn.onclick = async () => {
+            if (dontShowAgain.checked) {
+                await chrome.storage.local.set({ skipLoadConfirm: true });
+            }
+            modal.style.display = 'none';
+            dontShowAgain.checked = false;
+            resolve({confirmed: true, closeAll: true});
+        };
+
+        NoBtn.onclick = async () => {
+            if (dontShowAgain.checked) {
+                await chrome.storage.local.set({ skipLoadConfirm: true });
+            }
+            modal.style.display = 'none';
+            dontShowAgain.checked = false;
+            resolve({confirmed: true, closeAll: false});
+        };
+
+        cancelBtn.onclick = () => {
+            modal.style.display = 'none';
+            dontShowAgain.checked = false;
+            resolve({confirmed: false, closeAll: false});
+        };
+        
+        modal.querySelector('.modal-overlay').onclick = () => {
+            modal.style.display = 'none';
+            dontShowAgain.checked = false;
+            resolve({confirmed: false, closeAll: false});
+        };
+    });
+}
+
+function showConfirmSaveModal() {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('confirmsaveModal');
+        const confirmBtn = document.getElementById('confirmsaveBtn');
+        const cancelBtn = document.getElementById('cancelsaveBtn');
+        const dontShowAgain = document.getElementById('dontShowAgainsave');
 
         modal.style.display = 'block';
 
@@ -418,6 +488,37 @@ function showConfirmModal() {
     });
 }
 
+function showConfirmDeleteModal() {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('confirmdeleteModal');
+        const confirmBtn = document.getElementById('confirmdeleteBtn');
+        const cancelBtn = document.getElementById('canceldeleteBtn');
+        const dontShowAgain = document.getElementById('dontShowAgaindelete');
+
+        modal.style.display = 'block';
+
+        confirmBtn.onclick = async () => {
+            if (dontShowAgain.checked) {
+                await chrome.storage.local.set({ skipDeleteConfirm: true });
+            }
+            modal.style.display = 'none';
+            dontShowAgain.checked = false;
+            resolve(true);
+        };
+        
+        cancelBtn.onclick = () => {
+            modal.style.display = 'none';
+            dontShowAgain.checked = false;
+            resolve(false);
+        };
+        
+        modal.querySelector('.modal-overlay').onclick = () => {
+            modal.style.display = 'none';
+            dontShowAgain.checked = false;
+            resolve(false);
+        };
+    });
+}
 
 chrome.storage.onChanged.addListener((changes, area) => {
     if (!editRunning) Insertsetupslist()
