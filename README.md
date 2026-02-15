@@ -52,6 +52,4 @@ You should see that :
 
 ## Known issues
 
-Minimized windows are not saved.  
-The extension can't get position or size information for minimized windows which are necessary when loading a window.  
-Only non-minimized windows (normal, maximized, or fullscreen) will be included in saved setups.
+Minimized windows are not saved. The extension can't get position or size information for minimized windows which are necessary when loading a window. As a result only non-minimized windows (normal, maximized, or fullscreen) will be included in saved setups.

@@ -25,6 +25,8 @@ async function Insertsetupslist() {
     const NameOrders = Setuplist.map(entry => entry[0]);
     const SetupData = Setuplist.map(entry => entry[1]);
     let date = [];
+    let windowscount = [];
+    let tabscount = [];
     
     Wheretoinsert.innerHTML = "";
     
@@ -53,6 +55,15 @@ async function Insertsetupslist() {
         date.push(dateObj.toString())
     })
 
+    SetupData.forEach(setup => {
+        windowscount.push(setup.windowsData.length)
+        let tabs = 0
+        for (const window of setup.windowsData) {
+            tabs += window.tabs.length;
+        }
+        tabscount.push(tabs)
+    })
+
     NameOrders.forEach((name, index) => {
         const row = document.createElement('tr');
 
@@ -70,7 +81,7 @@ async function Insertsetupslist() {
         const nameCell = document.createElement('td');
         nameCell.className = 'setupnames';
         nameCell.textContent = name;
-        nameCell.innerHTML += `<br><a class="timestamp">Last saved ${date[index]}</a>`
+        nameCell.innerHTML += `<br><a class="compinfos">Last saved ${date[index]}&nbsp&nbsp( ${windowscount[index]} windows | ${tabscount[index]} tabs )</a>`
         nameCell.title = name;
         nameCell.addEventListener('click', () => {
             editSetupName(name, nameCell);

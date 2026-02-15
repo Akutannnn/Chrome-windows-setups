@@ -7,9 +7,13 @@ All notable changes to this project will be documented in this file.
 -Autosave(?) setups  
 -Favorite/pin setups  
 -Export/Import setups  
--Setup descriptions  
--Close all windows before loading  
--Window count preview (Show "X windows, Y tabs" next to each setup name)  
+-Setup descriptions
+
+## [1.1.5] 15/02/2026
+
+### Added
+
+Added windows and tabs count for each setup in options.  
 
 ## [1.1.4] 14/02/2026
 
