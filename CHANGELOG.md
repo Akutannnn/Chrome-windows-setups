@@ -9,6 +9,12 @@ All notable changes to this project will be documented in this file.
 -Export/Import setups  
 -Setup descriptions
 
+## [1.1.7] 18/02/2026
+
+### Improved
+
+Improved setups Load/Save/Delete buttons style.
+
 ## [1.1.6] 17/02/2026
 
 ### Added
