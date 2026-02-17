@@ -42,13 +42,15 @@ You should see that :
 
 ## Installation 
 
+Install it on the Chrome Web Store here : [Chrome Windows Setups](https://chromewebstore.google.com/detail/chrome-windows-setups/pnfgpegbphenehakjmkjghjipgjhbfpn)  
+  
+**OR**  
+  
 -Download the zip  
 -Extract it  
 -Go to "Manage extensions" **OR** Open "chrome://extensions/" (copy paste it in your browser's search bar)  
 -Click "Load unpacked" on the top left  
 -Choose the extracted folder and voilà  
-
-(Currently waiting approval to get listed on Chrome Web Extension Store)
 
 ## Known issues
 
