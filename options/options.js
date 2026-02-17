@@ -234,6 +234,86 @@ async function editSetupName(oldName, nameCell) {
     input.addEventListener('blur', saveName);
 }
 
+document.getElementById('exportBtn').addEventListener('click', async () => {
+    const { setups = {} } = await chrome.storage.local.get('setups');
+    
+    if (Object.keys(setups).length === 0) {
+        alert("You currently don't have any setups.");
+        return;
+    }
+    
+    const dataStr = JSON.stringify(setups, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const filename = `setups-save-${new Date().toISOString().split('T')[0]}.json`;
+    downloadBlob(blob, filename);
+});
+
+function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
+
+
+document.getElementById('importBtn').addEventListener('click', () => {
+    document.getElementById('importFile').click();
+});
+
+document.getElementById('importFile').addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    try {
+        const text = await file.text();
+        const importedSetups = JSON.parse(text);
+        
+        if (typeof importedSetups !== 'object' || importedSetups === null) {
+            alert('Invalid file format');
+            return;
+        }
+        
+        const { setups: existingSetups = {} } = await chrome.storage.local.get('setups');
+        
+        let addedCount = 0;
+        let overwrittenCount = 0;
+
+        for (const [name, setupData] of Object.entries(importedSetups)) {
+            if (existingSetups[name]) {
+                existingSetups[name] = setupData;
+                overwrittenCount++;
+            } else {
+                existingSetups[name] = setupData;
+                addedCount++;
+            }
+        }
+        
+        if (addedCount + overwrittenCount > 0) {
+            await chrome.storage.local.set({ setups: existingSetups });
+        }
+        
+        const total = addedCount + overwrittenCount;
+        alert(
+            `Import completed!\n\n` +
+            `${addedCount} new setup${addedCount === 1 ? '' : 's'} added\n` +
+            `${overwrittenCount} setup${overwrittenCount === 1 ? '' : 's'} updated\n` +
+            `Total: ${total} setup${total === 1 ? '' : 's'} imported`
+        );
+        location.reload();  
+
+    } catch (error) {
+        console.error('Import error:', error);
+        alert('Failed to import setups.');
+    }
+    event.target.value = '';
+});
+
+
 chrome.storage.onChanged.addListener((changes, area) => {
     Insertsetupslist()
 });

@@ -360,3 +360,17 @@ input:checked + .slider:before {
         background-color: #6F8FFC;
     }
 }
+
+#exportBtn, #importBtn {
+    margin: 16px 6px;
+    padding: 6px 14px;
+}
+
+@media (prefers-color-scheme: light) {
+    #exportBtn, #importBtn {
+        background-color: white;
+        color: black;
+        border-radius: 6px;
+        border-width: 1px;
+    }
+}

@@ -1,7 +1,7 @@
 {
     "name": "Chrome Windows Setups",
     "description": "Save and restore your Chrome Windows dispositions/layouts with ease.",
-    "version": "1.1.5",
+    "version": "1.1.6",
     "manifest_version": 3,
     "background": {
         "service_worker": "background.js",
